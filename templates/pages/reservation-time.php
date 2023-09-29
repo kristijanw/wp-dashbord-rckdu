@@ -7,6 +7,15 @@
 <?php
 $reservations = new ReservationClass();
 $tables = new TablesClass();
+
+$dateNow = date('Y-m-d');
+
+$settings = new SettingsRestoranClass();
+$sett = $settings->getByMonth(date('n'));
+
+if ($sett['active']) {
+}
+
 ?>
 
 <div class="container p-5 reservations">
@@ -28,7 +37,7 @@ $tables = new TablesClass();
     <div class="pt-5 pb-5 d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
             <div class="d-flex align-items-center gap-3">
-                <input type="date" id="date" class="form-control" value="<?php echo isset($_GET['date']) ? $_GET['date'] : ''; ?>">
+                <input type="date" id="date" class="form-control" value="<?php echo isset($_GET['date']) ? $_GET['date'] : $dateNow; ?>">
             </div>
         </div>
         <div>
@@ -47,6 +56,20 @@ $tables = new TablesClass();
         <div class="col-12">
             <div class="mt-5 mb-5">
 
+                <div class="row">
+                    <?php if (!empty($sett['times'])) { ?>
+                        <div class="col-2"></div>
+                        <?php foreach ($sett['times'] as $time) { ?>
+                            <div class="col-3 m-2">
+                                <div class="d-flex align-items-center gap-3">
+                                    <strong><?php echo $time['start']; ?></strong> -
+                                    <strong><?php echo $time['end']; ?></strong>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    <?php } ?>
+                </div>
+
                 <?php if (!empty($tables->loadTables())) { ?>
                     <?php foreach ($tables->loadTables() as $table) { ?>
                         <div class="row">
@@ -54,29 +77,35 @@ $tables = new TablesClass();
                                 <p class="m-0 fs-4"><?php echo $table['title']; ?></p>
                                 <p class="m-0 fs-4"><?php echo $table['room_title']; ?></p>
                             </div>
-                            <div class="col-4 m-2" style="background-color: #f5f5f5;">
-                                <ul id="sortable<?php echo $table['id']; ?>" class="connectedSortable connectedSortablePersonnel" data-table="<?php echo $table['id']; ?>" data-time="11" style="height: 80px; margin: 15px 0;">
+                            <?php if (!empty($sett['times'])) { ?>
+                                <?php foreach ($sett['times'] as $time) { ?>
 
-                                    <?php if (!empty($reservations->reservationByTableId($table['id']))) { ?>
-                                        <?php foreach ($reservations->reservationByTableId($table['id']) as $res) { ?>
-                                            <li id="sorder_<?php echo $table['ID']; ?>" class="ui-state-default list-group-item" data-res="<?php echo $res['id']; ?>">
-                                                <div class="ms-2 me-auto">
-                                                    <div class="fw-bold">
-                                                        # ID <?php echo $res['id']; ?>
-                                                    </div>
-                                                    <hr>
-                                                    <h5><?php echo $res['user']['name'] . ' ' . $res['user']['lastname']; ?></h5>
-                                                </div>
-                                            </li>
-                                        <?php } ?>
-                                    <?php } ?>
+                                    <div class="col-3 m-2" style="background-color: #f5f5f5;">
+                                        <ul id="sortable<?php echo $table['id']; ?>" class="connectedSortable connectedSortablePersonnel" data-table="<?php echo $table['id']; ?>" data-starttime="<?php echo $time['start'] ?>" data-endtime="<?php echo $time['end'] ?>" style="height: 80px; margin: 15px 0;">
 
-                                </ul>
-                            </div>
+                                            <?php if (!empty($reservations->reservationByTableId($table['id'], $sett['month'], $time))) { ?>
+                                                <?php foreach ($reservations->reservationByTableId($table['id'], $sett['month'], $time) as $res) { ?>
+                                                    <li id="sorder_<?php echo $table['ID']; ?>" class="ui-state-default list-group-item" data-res="<?php echo $res['id']; ?>">
+                                                        <div class="ms-2 me-auto">
+                                                            <div class="fw-bold">
+                                                                ID <?php echo $res['id']; ?>
+                                                            </div>
+                                                            <hr>
+                                                            <h5><?php echo $res['user']['name'] . ' ' . $res['user']['lastname']; ?></h5>
+                                                        </div>
+                                                    </li>
+                                                <?php } ?>
+                                            <?php } ?>
+
+                                        </ul>
+                                    </div>
+
+                                <?php } ?>
+                            <?php } ?>
+
                         </div>
                     <?php } ?>
                 <?php } ?>
-
 
             </div>
         </div>
@@ -100,6 +129,11 @@ $tables = new TablesClass();
 { ?>
     <script>
         jQuery(document).ready(function() {
+
+            jQuery('#date').change(function(e) {
+                e.preventDefault();
+                updateURL('date', jQuery(this).val());
+            });
 
             sortableIDs = [];
 
@@ -127,24 +161,21 @@ $tables = new TablesClass();
                             var tableId = ui.item.parent().attr("data-table");
                             var time = ui.item.parent().attr("data-time");
                             var post_id = ui.item.attr("data-res");
-                            updateReservationTableTime(tableId, time, post_id);
-
-                            jQuery('.pro-loader').hide();
+                            var timeStart = ui.item.parent().attr("data-starttime");
+                            var timeEnd = ui.item.parent().attr("data-endtime");
+                            updateReservationTableTime(tableId, time, post_id, timeStart, timeEnd);
                         }
                     }
                 }).disableSelection();
             }
 
-            function updateReservationTableTime(tableId, time, post_id) {
-                jQuery('.pro-loader').show();
-
+            function updateReservationTableTime(tableId, time, post_id, timeStart, timeEnd) {
                 var params = {
                     'post_id': post_id,
                     'tables_id': tableId,
-                    'time': time
+                    'timeStart': timeStart,
+                    'timeEnd': timeEnd,
                 };
-
-                console.log(params)
 
                 jQuery.ajax({
                     type: "POST",
@@ -156,8 +187,6 @@ $tables = new TablesClass();
                         'security': prospektAjax.ajaxnonce
                     },
                 }).done(function(data) {
-                    jQuery('.pro-loader').hide();
-
                     if (data.data.status == 'success') {
                         location.reload();
                     } else {

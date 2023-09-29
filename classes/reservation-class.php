@@ -185,17 +185,35 @@ class ReservationClass extends Helpers
         return $data;
     }
 
-    public function reservationByTableId($table_id)
+    public function reservationByTableId($table_id, $month, $time)
     {
+        $dateNow = isset($_GET['date']) ? $_GET['date'] : date('d') . '.' . $month . '.' . date('Y');
+        $formatDate = date('Ymd', strtotime($dateNow));
+
         $args = [
             'post_type' => 'pro_reservations',
             'numberposts' => -1,
             'meta_query' => [
-                ['relation' => 'OR'],
+                ['relation' => 'AND'],
                 [
                     'key' => 'tables_id',
                     'value' => $table_id,
                     'compare' => 'LIKE',
+                ],
+                [
+                    'key' => 'date_reservation',
+                    'value' => $formatDate,
+                    'compare' => 'LIKE',
+                ],
+                [
+                    'key' => 'time_reservation_from',
+                    'value' => $time['start'],
+                    'compare' => '>=',
+                ],
+                [
+                    'key' => 'time_reservation_to',
+                    'value' => $time['end'],
+                    'compare' => '<=',
                 ]
             ]
         ];

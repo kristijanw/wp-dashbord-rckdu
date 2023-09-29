@@ -34,5 +34,6 @@ require_once(get_stylesheet_directory() . '/classes/staff-class.php');
 require_once(get_stylesheet_directory() . '/classes/table-class.php');
 require_once(get_stylesheet_directory() . '/classes/reservation-class.php');
 require_once(get_stylesheet_directory() . '/classes/responsibilities-class.php');
+require_once(get_stylesheet_directory() . '/classes/settings-restoran.php');
 
 require_once(get_stylesheet_directory() . '/includes/exportXLSX.php');
