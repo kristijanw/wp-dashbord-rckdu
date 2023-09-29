@@ -11,7 +11,16 @@ $reservations = new ReservationClass();
 <div class="container p-5 reservations">
     <div class="row">
         <div class="col-12">
-            <a class="btn btn-outline-secondary fs-4" href="/rezervacije-kalendar"><?php echo __('Kalendarski prikaz', 'edevus'); ?></a>
+            <div class="col-12">
+                <div class="d-flex align-items-center gap-3">
+                    <a class="btn btn-secondary fs-4" href="/rezervacije">
+                        <?php echo __('Tablični prikaz', 'edevus'); ?>
+                    </a>
+                    <a class="btn btn-outline-secondary fs-4" href="/rezervacije-kalendar">
+                        <?php echo __('Kalendarski prikaz', 'edevus'); ?>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="pt-5 pb-5 d-flex align-items-center justify-content-between">
