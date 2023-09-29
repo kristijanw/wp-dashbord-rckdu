@@ -11,11 +11,8 @@ $tables = new TablesClass();
 $dateNow = date('Y-m-d');
 
 $settings = new SettingsRestoranClass();
-$sett = $settings->getByMonth(date('n'));
-
-if ($sett['active']) {
-}
-
+$month = isset($_GET['date']) ? date('n', strtotime($_GET['date'])) : date('n', strtotime($dateNow));
+$sett = $settings->getByMonth($month);
 ?>
 
 <div class="container p-5 reservations">
@@ -56,55 +53,63 @@ if ($sett['active']) {
         <div class="col-12">
             <div class="mt-5 mb-5">
 
-                <div class="row">
-                    <?php if (!empty($sett['times'])) { ?>
-                        <div class="col-2"></div>
-                        <?php foreach ($sett['times'] as $time) { ?>
-                            <div class="col-3 m-2">
-                                <div class="d-flex align-items-center justify-content-center gap-3">
-                                    <strong class="fs-5"><?php echo $time['start']; ?></strong> -
-                                    <strong class="fs-5"><?php echo $time['end']; ?></strong>
+                <?php if (!empty($sett) && $sett['active']) { ?>
+                    <div class="row">
+                        <?php if (!empty($sett['times'])) { ?>
+                            <div class="col-2"></div>
+                            <?php foreach ($sett['times'] as $time) { ?>
+                                <div class="col-3 m-2">
+                                    <div class="d-flex align-items-center justify-content-center gap-3">
+                                        <strong class="fs-5"><?php echo $time['start']; ?></strong> -
+                                        <strong class="fs-5"><?php echo $time['end']; ?></strong>
+                                    </div>
                                 </div>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+    
+                    <?php if (!empty($tables->loadTables())) { ?>
+                        <?php foreach ($tables->loadTables() as $table) { ?>
+                            <div class="row">
+                                <div class="col-2 p-3 d-flex flex-column justify-content-center">
+                                    <p class="m-0 fs-4"><?php echo $table['title']; ?></p>
+                                    <p class="m-0 fs-4"><?php echo $table['room_title']; ?></p>
+                                </div>
+                                <?php if (!empty($sett['times'])) { ?>
+                                    <?php foreach ($sett['times'] as $time) { ?>
+    
+                                        <div class="col-3 m-2 card-time">
+                                            <ul id="sortable<?php echo $table['id']; ?>" class="connectedSortable connectedSortablePersonnel" data-table="<?php echo $table['id']; ?>" data-starttime="<?php echo $time['start'] ?>" data-endtime="<?php echo $time['end'] ?>">
+    
+                                                <?php if (!empty($reservations->reservationByTableId($table['id'], $sett['month'], $time))) { ?>
+                                                    <?php foreach ($reservations->reservationByTableId($table['id'], $sett['month'], $time) as $res) { ?>
+                                                        <li id="sorder_<?php echo $table['ID']; ?>" class="ui-state-default list-group-item" data-res="<?php echo $res['id']; ?>">
+                                                            <div class="ms-2 me-auto">
+                                                                <div class="fw-bold">
+                                                                    ID <?php echo $res['id']; ?>
+                                                                </div>
+                                                                <hr>
+                                                                <h5><?php echo $res['user']['name'] . ' ' . $res['user']['lastname']; ?></h5>
+                                                            </div>
+                                                        </li>
+                                                    <?php } ?>
+                                                <?php } ?>
+    
+                                            </ul>
+                                        </div>
+    
+                                    <?php } ?>
+                                <?php } ?>
+    
                             </div>
                         <?php } ?>
                     <?php } ?>
-                </div>
-
-                <?php if (!empty($tables->loadTables())) { ?>
-                    <?php foreach ($tables->loadTables() as $table) { ?>
-                        <div class="row">
-                            <div class="col-2 p-3 d-flex flex-column justify-content-center">
-                                <p class="m-0 fs-4"><?php echo $table['title']; ?></p>
-                                <p class="m-0 fs-4"><?php echo $table['room_title']; ?></p>
-                            </div>
-                            <?php if (!empty($sett['times'])) { ?>
-                                <?php foreach ($sett['times'] as $time) { ?>
-
-                                    <div class="col-3 m-2 card-time">
-                                        <ul id="sortable<?php echo $table['id']; ?>" class="connectedSortable connectedSortablePersonnel" data-table="<?php echo $table['id']; ?>" data-starttime="<?php echo $time['start'] ?>" data-endtime="<?php echo $time['end'] ?>">
-
-                                            <?php if (!empty($reservations->reservationByTableId($table['id'], $sett['month'], $time))) { ?>
-                                                <?php foreach ($reservations->reservationByTableId($table['id'], $sett['month'], $time) as $res) { ?>
-                                                    <li id="sorder_<?php echo $table['ID']; ?>" class="ui-state-default list-group-item" data-res="<?php echo $res['id']; ?>">
-                                                        <div class="ms-2 me-auto">
-                                                            <div class="fw-bold">
-                                                                ID <?php echo $res['id']; ?>
-                                                            </div>
-                                                            <hr>
-                                                            <h5><?php echo $res['user']['name'] . ' ' . $res['user']['lastname']; ?></h5>
-                                                        </div>
-                                                    </li>
-                                                <?php } ?>
-                                            <?php } ?>
-
-                                        </ul>
-                                    </div>
-
-                                <?php } ?>
-                            <?php } ?>
-
+                <?php } else { ?>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="fs-4">Za <?php echo $month; ?> mjesec nije uključena opcija rezervacija.</p>
                         </div>
-                    <?php } ?>
+                    </div>
                 <?php } ?>
 
             </div>
