@@ -16,7 +16,7 @@ $reservations = new ReservationClass();
                     <a class="btn btn-secondary fs-4" href="/rezervacije">
                         <?php echo __('Tablični prikaz', 'edevus'); ?>
                     </a>
-                    <a class="btn btn-outline-secondary fs-4" href="/rezervacije-vremenski">
+                    <a class="btn btn-outline-secondary fs-4" href="/rezervacije/vremenski">
                         <?php echo __('Vremenski prikaz', 'edevus'); ?>
                     </a>
                     <a class="btn btn-outline-secondary fs-4" href="/rezervacije-kalendar">

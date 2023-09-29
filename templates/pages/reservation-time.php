@@ -25,7 +25,7 @@ if ($sett['active']) {
                 <a class="btn btn-outline-secondary fs-4" href="/rezervacije">
                     <?php echo __('Tablični prikaz', 'edevus'); ?>
                 </a>
-                <a class="btn btn-secondary fs-4" href="/rezervacije-vremenski">
+                <a class="btn btn-secondary fs-4" href="/rezervacije/vremenski">
                     <?php echo __('Vremenski prikaz', 'edevus'); ?>
                 </a>
                 <a class="btn btn-outline-secondary fs-4" href="/rezervacije-kalendar">
@@ -61,9 +61,9 @@ if ($sett['active']) {
                         <div class="col-2"></div>
                         <?php foreach ($sett['times'] as $time) { ?>
                             <div class="col-3 m-2">
-                                <div class="d-flex align-items-center gap-3">
-                                    <strong><?php echo $time['start']; ?></strong> -
-                                    <strong><?php echo $time['end']; ?></strong>
+                                <div class="d-flex align-items-center justify-content-center gap-3">
+                                    <strong class="fs-5"><?php echo $time['start']; ?></strong> -
+                                    <strong class="fs-5"><?php echo $time['end']; ?></strong>
                                 </div>
                             </div>
                         <?php } ?>
@@ -80,8 +80,8 @@ if ($sett['active']) {
                             <?php if (!empty($sett['times'])) { ?>
                                 <?php foreach ($sett['times'] as $time) { ?>
 
-                                    <div class="col-3 m-2" style="background-color: #f5f5f5;">
-                                        <ul id="sortable<?php echo $table['id']; ?>" class="connectedSortable connectedSortablePersonnel" data-table="<?php echo $table['id']; ?>" data-starttime="<?php echo $time['start'] ?>" data-endtime="<?php echo $time['end'] ?>" style="height: 80px; margin: 15px 0;">
+                                    <div class="col-3 m-2 card-time">
+                                        <ul id="sortable<?php echo $table['id']; ?>" class="connectedSortable connectedSortablePersonnel" data-table="<?php echo $table['id']; ?>" data-starttime="<?php echo $time['start'] ?>" data-endtime="<?php echo $time['end'] ?>">
 
                                             <?php if (!empty($reservations->reservationByTableId($table['id'], $sett['month'], $time))) { ?>
                                                 <?php foreach ($reservations->reservationByTableId($table['id'], $sett['month'], $time) as $res) { ?>
@@ -122,6 +122,32 @@ if ($sett['active']) {
         font-family: Poppins;
         line-height: 6rem;
         font-weight: 400;
+    }
+
+    .card-time {
+        background: transparent;
+        border: 1px solid rgba(235, 235, 235, 1);
+        border-radius: 6px;
+    }
+
+    .card-time>ul {
+        height: auto;
+        min-height: 80px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .card-time>ul>li {
+        margin: 5px 0;
+        cursor: grab;
+    }
+
+    .connectedSortable li.list-group-item {
+        background-color: #fff;
+        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.03);
+        border: none;
+        border-radius: 6px;
+        padding: 0.5rem;
     }
 </style>
 
