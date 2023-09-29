@@ -1,0 +1,241 @@
+@charset "UTF-8";
+/*
+Theme Name:     Rezervacija Child
+Theme URI:      https://prospekt.hr/
+Description:    Rezervacija Child Theme
+Author:         Kristijan
+Author URI:     https://prospekt.hr/
+Template:       twentytwenty
+Version:        1.0
+License:        GNU General Public License v2 or later
+License URI:    https://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.pro-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 9999999;
+}
+.pro-spinner {
+    width: 60px;
+    height: 60px;
+    border-radius: 60px;
+    border: 10px solid #C20330;
+    position: fixed;
+    left: calc(50% - 30px);
+    top: calc(50% - 30px);
+    animation-name: spin;
+    animation-duration: 0.25s;
+    border-left-color: transparent;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+body {
+    background-color: #FCFCFC;
+    font-family: 'Poppins', sans-serif;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+    margin: 0 !important;
+}
+
+button {
+    text-decoration: none !important;
+}
+
+.sidebar-bg {
+    background-color: #fff;
+    height: 100vh;
+}
+
+.text-danger {
+    color: #C10230 !important;
+}
+
+.card {
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.03);
+    border: none;
+    border-radius: 6px;
+    background: #fff;
+    padding: 1rem;
+}
+
+.text-bg-danger {
+    border-radius: 6px;
+    background-color: rgba(193, 2, 48, 0.10) !important;
+    color: #313131 !important;
+    display: inline-flex;
+    padding: 1rem 2rem;
+    justify-content: center;
+    align-items: center;
+    width: 15rem;
+    font-size: 14px;
+    font-weight: 300;
+}
+.text-bg-warning {
+    border-radius: 6px;
+    background-color: rgba(253, 125, 6, 0.10) !important;
+    color: #313131 !important;
+    display: inline-flex;
+    padding: 1rem 2rem;
+    justify-content: center;
+    align-items: center;
+    width: 15rem;
+    font-size: 14px;
+    font-weight: 300;
+}
+.text-bg-success {
+    border-radius: 6px;
+    background-color: rgba(61, 167, 35, 0.10) !important;
+    color: #313131 !important;
+    display: inline-flex;
+    padding: 1rem 2rem;
+    justify-content: center;
+    align-items: center;
+    width: 15rem;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.modal {
+    display: block;
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50rem;
+}
+
+/* HEADER */
+.header-title-eu {
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 300;
+}
+
+/* HOME */
+.header-home-page {
+    background-color: rgba(221, 221, 221, 1);
+    padding: 2rem;
+}
+
+
+/* LEFT SIDEBAR */
+.left-sidebar {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 3rem;
+}
+.left-sidebar ul {
+    list-style: none;
+    text-align: left;
+    line-height: 3rem;
+    padding: 0;
+    margin: 0;
+    font-size: 17px;
+}
+.left-sidebar ul li {
+    padding: 1rem 3rem;
+    color: #313131;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0;
+}
+.left-sidebar ul li.current-menu-item {
+    background-color: #F5F5F5;
+}
+.left-sidebar ul li.current-menu-item a {
+    color: #313131;
+}
+.left-sidebar ul li.current-page-ancestor {
+    background-color: #F5F5F5;
+}
+.left-sidebar ul li.current-page-ancestor a {
+    color: #313131;
+}
+.left-sidebar ul li a {
+    color: #313131;
+    text-decoration: none;
+}
+
+
+
+.settings .month {
+    padding: 1rem;
+    width: 12rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.settings .month:hover {
+    background-color: #FFF5F7;
+    font-weight: 600;
+}
+.settings .month.selected {
+    background-color: #FFF5F7;
+    font-weight: 600;
+}
+.settings .selected-month {
+    letter-spacing: 0.018px;
+}
+
+
+.reservations select,
+.reservations input {
+    height: 35px !important;
+}
+
+
+/* MODAL: FORM, INPUTS, SELECT */
+.modal {
+    z-index: -1;
+}
+.modal input,
+.modal select {
+    height: 35px !important;
+    font-size: 14px;
+}
+
+.staff img,
+.room img,
+.stol img {
+    cursor: pointer;
+}
+
+
+
+
+.reservation-edit input,
+.reservation-edit select {
+    height: 50px !important;
+}
+.reservation-edit input[type="checkbox"] {
+    height: 15px !important;
+}
+.reservation-edit input,
+.reservation-edit textarea,
+.reservation-edit select {
+    font-size: 1.6rem;
+}
