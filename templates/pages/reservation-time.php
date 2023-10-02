@@ -60,8 +60,14 @@ $sett = $settings->getByMonth($month);
                             <?php foreach ($sett['times'] as $time) { ?>
                                 <div class="col-3 m-2">
                                     <div class="d-flex align-items-center justify-content-center gap-3">
-                                        <strong class="fs-5"><?php echo $time['start']; ?></strong> -
-                                        <strong class="fs-5"><?php echo $time['end']; ?></strong>
+                                        <div class="d-flex align-items-center gap-1">
+                                            <img src="/wp-content/uploads/2023/10/time-icon.svg" alt="time" style="width:2rem;margin-bottom:2px;">
+                                            <strong class="fs-5"><?php echo $time['start']; ?></strong>
+                                        </div> 
+                                        -
+                                        <div>
+                                            <strong class="fs-5"><?php echo $time['end']; ?></strong>
+                                        </div>
                                     </div>
                                 </div>
                             <?php } ?>
@@ -84,12 +90,20 @@ $sett = $settings->getByMonth($month);
                                                 <?php if (!empty($reservations->reservationByTableId($table['id'], $sett['month'], $time))) { ?>
                                                     <?php foreach ($reservations->reservationByTableId($table['id'], $sett['month'], $time) as $res) { ?>
                                                         <li id="sorder_<?php echo $table['ID']; ?>" class="ui-state-default list-group-item" data-res="<?php echo $res['id']; ?>">
-                                                            <div class="ms-2 me-auto">
-                                                                <div class="fw-bold">
-                                                                    ID <?php echo $res['id']; ?>
+                                                            <div class="p-4 ms-2 me-auto">
+                                                                <div class="d-flex align-items-center gap-3">
+                                                                    <div class="fw-light fs-4" style="border-right: 1px solid #ddd;padding-right:10px;">
+                                                                        ID <?php echo $res['id']; ?>
+                                                                    </div>
+                                                                    <p class="m-0 fs-4"><?php echo $res['user']['name'] . ' ' . $res['user']['lastname']; ?></p>
                                                                 </div>
-                                                                <hr>
-                                                                <h5><?php echo $res['user']['name'] . ' ' . $res['user']['lastname']; ?></h5>
+                                                                <div class="mt-4">
+                                                                    <a href="/rezervacije/rezervacija/?id=<?php echo $res['id']; ?>"
+                                                                    class="d-flex align-items-center gap-2 fs-5" style="padding:0.5rem 2rem;border-radius:6px;background-color:#F5F5F5;">
+                                                                        Prikaži cijelu rezervaciju
+                                                                        <img style="width:20px;" src="/wp-content/uploads/2023/10/right-arrow.svg" alt="arrow">
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         </li>
                                                     <?php } ?>
