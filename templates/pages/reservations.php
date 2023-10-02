@@ -61,7 +61,7 @@ $reservations = new ReservationClass();
 
     <div class="row mt-2">
         <?php if (!empty($reservations->loadAllReservations())) { ?>
-            <?php foreach ($reservations->loadAllReservations() as $reservation) { ?>
+            <?php foreach ($reservations->loadAllReservations() as $reservation) {?>
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row align-items-center fs-4">
@@ -69,8 +69,8 @@ $reservations = new ReservationClass();
                             <div class="col-2"><?php echo $reservation['time_reservation_from'] . ' - ' . $reservation['time_reservation_to']; ?></div>
                             <div class="col-2"><?php echo $reservation['title']; ?></div>
                             <div class="col-2"><?php echo $reservation['user']['name'] . ' ' . $reservation['user']['lastname']; ?></div>
-                            <div class="col-1"><?php echo $reservation['tables']['room']['title']; ?></div>
-                            <div class="col-1"><?php echo $reservation['tables']['title']; ?></div>
+                            <div class="col-1"><?php echo !empty($reservation['tables']['id']) ? $reservation['tables']['room']['title'] : ''; ?></div>
+                            <div class="col-1"><?php echo !empty($reservation['tables']['id']) ? $reservation['tables']['title'] : ''; ?></div>
                             <div class="col-1 d-flex align-items-center">
                                 <a href="/rezervacije/edit/?id=<?php echo $reservation['id']; ?>">
                                     <img src="/wp-content/uploads/2023/09/edit-icon.svg" alt="">
