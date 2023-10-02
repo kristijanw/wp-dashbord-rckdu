@@ -15,10 +15,9 @@
 
 <div class="row align-items-start">
     <div class="col mt-5 ps-5">
-        <div class="d-flex align-items-center justify-content-between w-75 mr-auto">
+        <div class="d-flex align-items-center gap-2 w-75 mr-auto">
             <img src="/wp-content/uploads/2023/09/user-icon.svg" alt="">
             <h2><?php echo wp_get_current_user()->first_name; ?></h2>
-            <img src="/wp-content/uploads/2023/09/settings.svg" alt="">
         </div>
     </div>
 </div>

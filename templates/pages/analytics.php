@@ -16,7 +16,7 @@ $reservations = new ReservationClass();
         </div>
         <div>
             <button type="button" id="exportAnalytics" class="export btn btn-outline-secondary btn-lg d-flex align-items-center">
-                <img src="/wp-content/uploads/2023/09/export.svg" alt="export">
+                <img src="/wp-content/uploads/2023/09/export.svg" alt="export" style="margin-right: 10px;">
                 Izvoz
             </button>
         </div>
@@ -179,6 +179,15 @@ add_action('wp_footer', 'add_pro_stolovi_script_to_footer', 999);
 <style>
     .analytics #date_filter {
         height: 35px !important;
+    }
+
+    button#exportAnalytics {
+        color: #626262;
+        border-color: #626262;
+    }
+    button#exportAnalytics:hover {
+        background: transparent;
+        color: #626262;
     }
 </style>
 

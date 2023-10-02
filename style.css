@@ -218,6 +218,31 @@ button {
     font-size: 14px;
 }
 
+.modal .modal-header {
+    border: none;
+    padding: 2rem;
+}
+.modal .modal-header h1 {
+    font-size: 2rem !important;
+}
+.modal .modal-footer {
+    border: none;
+}
+.modal .modal-footer > button {
+    padding: 0.7rem 1.5rem;
+    margin: 2rem 1rem;
+}
+.modal .modal-footer > button:first-child {
+    background: transparent;
+    border: 1px solid #C10230;
+    color: #C10230;
+}
+.modal .modal-footer > button:nth-child(2) {
+    background: #C10230;
+    border: 1px solid #C10230;
+    color: #fff;
+}
+
 .staff img,
 .room img,
 .stol img {
