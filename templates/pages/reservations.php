@@ -56,7 +56,8 @@ $reservations = new ReservationClass();
     <div class="row">
         <div class="col-2 fs-4">Datum</div>
         <div class="col-2 fs-4">Termin</div>
-        <div class="col-2 fs-4">Rezervacija</div>
+        <div class="col-1 fs-4">Rezervacija</div>
+        <div class="col-1 fs-4">Dolazak</div>
     </div>
 
     <div class="row mt-2">
@@ -67,7 +68,14 @@ $reservations = new ReservationClass();
                         <div class="row align-items-center fs-4">
                             <div class="col-2"><?php echo $reservation['date_reservation']; ?></div>
                             <div class="col-2"><?php echo $reservation['time_reservation_from'] . ' - ' . $reservation['time_reservation_to']; ?></div>
-                            <div class="col-2"><?php echo $reservation['title']; ?></div>
+                            <div class="col-1"><?php echo $reservation['title']; ?></div>
+                            <div class="col-1"><?php
+                                if(get_post_meta($reservation['id'], '_from_online', true) == 'yes') {
+                                    echo "<span class='badge text-bg-light'>Web Forma</span>";
+                                } else {
+                                    echo "<span class='badge text-bg-light'>Sustav</span>";
+                                }
+                            ?></div>
                             <div class="col-2"><?php echo $reservation['user']['name'] . ' ' . $reservation['user']['lastname']; ?></div>
                             <div class="col-1"><?php echo !empty($reservation['tables']['id']) ? $reservation['tables']['room']['title'] : ''; ?></div>
                             <div class="col-1"><?php echo !empty($reservation['tables']['id']) ? $reservation['tables']['title'] : ''; ?></div>
